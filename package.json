@@ -21,6 +21,7 @@
     "@mui/x-data-grid-premium": "^8.26.1",
     "@prisma/adapter-mariadb": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "@supabase/ssr": "^0.8.0",
     "lucide-react": "^0.563.0",
     "mysql2": "^3.16.2",
     "next": "16.1.5",
@@ -37,6 +38,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.5",
     "prisma": "^7.3.0",
+    "supabase": "^2.75.3",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
