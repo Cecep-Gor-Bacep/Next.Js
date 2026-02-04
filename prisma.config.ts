@@ -1,10 +1,14 @@
-import { defineConfig, env } from 'prisma/config'
 import 'dotenv/config'
-import { MyLocationSharp } from '@mui/icons-material'
+import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
+  migrations: {
+    path: 'prisma/migrations',
+  },
   datasource: {
-    url: env("mysql://root@localhost:3306/sim"),
+    url: env('DIRECT_URL'),
+    
   },
 })
+        
