@@ -28,6 +28,7 @@ import Link from "next/link";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import { Block, Settings } from "@mui/icons-material";
 import { theme as defaultTheme } from "@/app/components/Theme/ThemeSwitch";
+import ToggleColorMode from "../Theme/ThemeSwitch";
 
 const drawerWidth = 240;
 
@@ -188,6 +189,7 @@ export default function SearchAppBar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
+            <ToggleColorMode />
           </Toolbar>
         </AppBars>
         <ThemeProvider theme={defaultTheme}>
