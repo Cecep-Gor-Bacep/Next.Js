@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "../components/shared/Navbar";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./components/Theme/ThemeSwitch";
+import { theme } from "../components/shared/Theme";
 import { CssBaseline, InitColorSchemeScript } from "@mui/material";
 
 export const metadata: Metadata = {
