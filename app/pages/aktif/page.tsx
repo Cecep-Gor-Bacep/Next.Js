@@ -1,10 +1,11 @@
 "use client";
 
+import { getAllMahasiswa } from "@/services/MahasiswaServices";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
-const columns: GridColDef<typeof rows>[] = [
+const columns: GridColDef[] = [
   { field: "nim", headerName: "NIM", width: 150 },
   {
     field: "nama",
@@ -26,23 +27,26 @@ const columns: GridColDef<typeof rows>[] = [
   },
 ];
 
-const rows = [
-  { nim: "F1B02310101", nama: "Snow", status: "Jon", keterangan: "" },
-  { nim: "F1B02310102", nama: "Lannister", status: "Cersei", keterangan: "" },
-  { nim: "F1B02310103", nama: "Lannister", status: "Jaime", keterangan: "" },
-  { nim: "F1B02310104", nama: "Stark", status: "Arya", keterangan: "" },
-  { nim: "F1B02310105", nama: "Targaryen", status: "Daenerys", keterangan: "" },
-  { nim: "F1B02310106", nama: "Melisandre", status: "", keterangan: "" },
-  { nim: "F1B02310107", nama: "Clifford", status: "Ferrara", keterangan: "" },
-  { nim: "F1B02310108", nama: "Frances", status: "Rossini", keterangan: "" },
-  { nim: "F1B02310109", nama: "Roxie", status: "Harvey", keterangan: "" },
-];
-
 export default function DataGridDemo() {
+  const [rows, setRows] = useState<GridRowModel[]>([]);
+  const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await getAllMahasiswa();
+        setRows(result);
+        setLoading(false);
+      } catch (error) {
+        alert("Terjadi kesalahan saat proses fetching data")
+      }
+    };
+
+    fetchData();
   }, [])
 
   if(!mounted){

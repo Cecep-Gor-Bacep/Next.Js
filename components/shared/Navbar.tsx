@@ -189,7 +189,7 @@ export default function SearchAppBar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <ToggleColorMode />
+            {/* <ToggleColorMode /> */}
           </Toolbar>
         </AppBars>
         <ThemeProvider theme={defaultTheme}>

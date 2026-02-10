@@ -5,7 +5,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Settings from '@/settings/page';
+import ThemeSettings from '@/settings/Theme/page';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -68,10 +68,10 @@ export default function VerticalTabs() {
         <Tab label="Item Seven" {...a11yProps(6)} /> */}
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Settings/>
+
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <ThemeSettings/>
       </TabPanel>
       {/* <TabPanel value={value} index={2}>
         Item Three

@@ -72,10 +72,6 @@ const ThemeSwitch = styled(Switch)(({ theme }) => ({
 }));
 function Container() {
   const { mode, setMode } = useColorScheme();
-  const ThemeIcons = {
-    Light: <LightModeIcon />,
-    Dark: <DarkModeIcon />,
-  };
 
   return (
     <Box
@@ -86,21 +82,6 @@ function Container() {
         ml: 1,
       }}
     >
-      {/* <FormControl>
-        <IconButton
-          aria-label={'switch to ' + (mode === "dark" ? "light" : "dark") + ' mode'}
-          onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-          color="inherit"
-        >
-          {mode === "dark" ? ThemeIcons.Light : ThemeIcons.Dark}
-        </IconButton>
-      </FormControl>   */}
-
-      {/* <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
-        label={"switch to " + (mode === "dark" ? "light" : "dark") + " mode"}
-        onChange={() => setMode(mode === "dark" ? "light" : "dark")}
-      /> */}
       <ThemeSwitch sx={{ m: 1 }} defaultChecked onChange={() => setMode(mode === "dark" ? "light" : "dark")} />
     </Box>
   );
