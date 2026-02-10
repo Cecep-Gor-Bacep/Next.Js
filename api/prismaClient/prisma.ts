@@ -1,12 +1,21 @@
-import 'dotenv/config'
-import { PrismaMariaDb } from '@prisma/adapter-mariadb'
-import { PrismaClient } from '@/app/generated/prisma/client'
+import { PrismaClient } from "@/app/generated/prisma/client";
 
-const adapter = new PrismaMariaDb(
-  {
-    host: "localhost",
-    port: 3306,
-    connectionLimit: 5
-  }
-)
-const prisma = new PrismaClient({ adapter })
+const prisma = new PrismaClient();
+
+async function main() {
+  //change to reference a table in your schema
+  const val = await prisma.data_mhs.findMany({
+    take: 10,
+  });
+  console.log(val);
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+  process.exit(1);
+});
