@@ -1,12 +1,18 @@
-import { createClient } from "@/utils/supabase/client";
+import { PrismaClient } from "@prisma/client"
+
 
 export async function getAllMahasiswa() {
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("data_mhs")
-    .select("*")
-    .order("nama", { ascending: true });
+  const prisma = new PrismaClient()
 
-  if (error) throw Error;
-  return data;
+  const Mhs = await prisma.dataMhs.findMany()
+  
+  return Mhs;
+}
+
+export async function getStatus() {
+  const prisma = new PrismaClient()
+
+  const status = await prisma.statusMhs.findMany()
+  
+  return status;
 }
