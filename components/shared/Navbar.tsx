@@ -252,7 +252,7 @@ export default function SearchAppBar() {
             <List>
               <ListItemButton
                 component={Link}
-                href="./Setting"
+                href="/Setting"
                 onClick={toggleDrawer(false)}
               >
                 <ListItemIcon>
