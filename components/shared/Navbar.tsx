@@ -27,8 +27,8 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import Link from "next/link";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import { Block, Settings } from "@mui/icons-material";
-import { theme as defaultTheme } from "@/app/components/Theme/ThemeSwitch";
-import ToggleColorMode from "../Theme/ThemeSwitch";
+import { theme as defaultTheme } from "./Theme";
+import ToggleColorMode from "./ThemeSwitch";
 
 const drawerWidth = 240;
 
@@ -189,7 +189,7 @@ export default function SearchAppBar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <ToggleColorMode />
+            {/* <ToggleColorMode /> */}
           </Toolbar>
         </AppBars>
         <ThemeProvider theme={defaultTheme}>
@@ -252,7 +252,7 @@ export default function SearchAppBar() {
             <List>
               <ListItemButton
                 component={Link}
-                href="/preference"
+                href="/Setting"
                 onClick={toggleDrawer(false)}
               >
                 <ListItemIcon>

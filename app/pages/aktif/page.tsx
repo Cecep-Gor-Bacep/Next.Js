@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
-const columns: GridColDef<typeof rows>[] = [
+const columns: GridColDef[] = [
   { field: "nim", headerName: "NIM", width: 150 },
   {
     field: "nama",
@@ -17,80 +17,104 @@ const columns: GridColDef<typeof rows>[] = [
     headerName: "Status",
     width: 110,
     editable: true,
+    valueGetter: (...args: any[]) => {
+      let row = args[1] ?? args[0];
+      return row?.statusMhs?.[0]?.status ?? "-";
+    },
+    valueSetter: (...args: any[]) => {
+      let value: any = args[0], row = args[1];
+      return { ...row, statusMhs: [{ ...(row?.statusMhs?.[0] ?? {}), status: value }] };
+    },
   },
   {
-    field: "keterangan",
+    field: "ket",
     headerName: "Keterangan",
     width: 200,
     editable: true,
+    valueGetter: (...args: any[]) => {
+      let row = args[1];
+      return row?.statusMhs?.[0]?.ket ?? "-";
+    },
+    valueSetter: (...args: any[]) => {
+      let value: any = args[0], row = args[1];
+      return { ...row, statusMhs: [{ ...(row?.statusMhs?.[0] ?? {}), ket: value }] };
+    },
   },
 ];
 
-const rows = [
-  { nim: "F1B02310101", nama: "Snow", status: "Jon", keterangan: "" },
-  { nim: "F1B02310102", nama: "Lannister", status: "Cersei", keterangan: "" },
-  { nim: "F1B02310103", nama: "Lannister", status: "Jaime", keterangan: "" },
-  { nim: "F1B02310104", nama: "Stark", status: "Arya", keterangan: "" },
-  { nim: "F1B02310105", nama: "Targaryen", status: "Daenerys", keterangan: "" },
-  { nim: "F1B02310106", nama: "Melisandre", status: "", keterangan: "" },
-  { nim: "F1B02310107", nama: "Clifford", status: "Ferrara", keterangan: "" },
-  { nim: "F1B02310108", nama: "Frances", status: "Rossini", keterangan: "" },
-  { nim: "F1B02310109", nama: "Roxie", status: "Harvey", keterangan: "" },
-];
-
 export default function DataGridDemo() {
+  const [rows, setRows] = useState<GridRowModel[]>([]);
+  const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-  }, [])
 
-  if(!mounted){
-    return <Box sx={{height: "90vh", width: "100%"}}/>
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await fetch("/api/aktif");
+        const data = await result.json();
+        setRows(data);
+        setLoading(false);
+        console.log(data);
+      } catch (e) {
+        alert("Terjadi kesalahan saat proses fetching data" + e);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!mounted) {
+    return <Box sx={{ height: "90vh", width: "100%" }} />;
   }
+  
+  // Handle change nya api -> services -> route. 
   const handleChange = async (newRow: GridRowModel, oldRow: GridRowModel) => {
-    try{
-      const response = await fetch("/api/aktif", {
-        method: "POST",
-        body: JSON.stringify(newRow)
-      })
+    try {
+      const { nim } = newRow;
+      const { status, ket } = Array.isArray(newRow.statusMhs) ? newRow.statusMhs[0] : {};
 
-      if (!response.ok){
-        throw new Error(response.statusText)
+      const res = await fetch(`/api/aktif?nim=${encodeURIComponent(String(nim))}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nim:nim, status:status, ket:ket }),
+      });
+
+      const json = await res.json();
+      if (json?.statusMhs) {
+        setRows(prev => prev.map(r => (String(r.nim) === String(nim) ? { ...r, statusMhs: json.statusMhs } : r)));
+        return { ...newRow, statusMhs: json.statusMhs } as GridRowModel;
       }
 
-      const result = await response.json();
-      console.log(result)
-      
-      return newRow
-
-    } catch (error) {
-      alert("Terjadi kesalahan saat proses fetching data")
-      return oldRow
+      return newRow;
+    } catch (e) {
+      alert(e);
+      return oldRow;
     }
   };
 
   return (
-    <Box sx={{ height: "90vh", width: "100%"}}>
+    <Box sx={{ height: "90vh", width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        getRowId={(row)=>row.nim}
+        getRowId={(row) => row.nim}
         processRowUpdate={handleChange}
-        onProcessRowUpdateError={(error)=>console.log("Edit error: ", error)}
+        onProcessRowUpdateError={(error) => console.log("Edit error: ", error)}
         slotProps={{
-          toolbar: {showQuickFilter: true}
+          toolbar: { showQuickFilter: true },
         }}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: rows.length,
+              pageSize: 25,
             },
           },
         }}
         pageSizeOptions={[5]}
         checkboxSelection
-        
         disableRowSelectionOnClick
       />
     </Box>

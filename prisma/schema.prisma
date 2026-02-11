@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model DataMhs {
+  nim        String         @id @map("NIM") @db.VarChar(20)
+  nama       String?        @map("NAMA")
+  thnMasuk   Int?           @map("thn_masuk")
+  kelulusan  DataKelulusan?
+  sekolahMhs DataSklhMhs[]
+  statusMhs  StatusMhs[]
+
+  @@map("data_mhs")
+}
+
+model DataKelulusan {
+  nim       String  @id @map("NIM") @db.VarChar(20)
+  thnLulus  Int     @map("thnLulus")
+  mahasiswa DataMhs @relation(fields: [nim], references: [nim])
+
+  @@map("data_kelulusan")
+}
+
+model DataSklh {
+  kodeSklh  Int           @id @map("kode_sklh")
+  namaSklh  String?       @map("nama_sklh")
+  mahasiswa DataSklhMhs[]
+
+  @@map("data_sklh")
+}
+
+model DataSklhMhs {
+  id        Int       @id @default(autoincrement())
+  nim       String?   @map("NIM") @db.VarChar(20)
+  kodeSklh  Int?      @map("kode_sklh")
+  jurusan   String?
+  mahasiswa DataMhs?  @relation(fields: [nim], references: [nim])
+  sekolah   DataSklh? @relation(fields: [kodeSklh], references: [kodeSklh])
+
+  @@map("data_sklh_mhs")
+}
+
+model StatusMhs {
+  idStatus  Int      @id @default(autoincrement()) @map("id_status")
+  nim       String?  @map("NIM") @db.VarChar(20)
+  status    String?
+  ket       String?
+  mahasiswa DataMhs? @relation(fields: [nim], references: [nim])
+
+  @@map("status_mhs")
+}
