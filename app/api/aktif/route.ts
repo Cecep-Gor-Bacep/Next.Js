@@ -20,15 +20,11 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
     const { nim: nimBody, status, ket } = body;
-    const nim = nimQuery || nimBody;
-
+    const nim = (nimQuery || nimBody) as string;
     const data = await updateStatKet(nim, status, ket);
+    
     return NextResponse.json(data);
   } catch (e) {
-    return NextResponse.json({
-      status: 500,
-      message: "Error" + e 
-      },
-    );
+    return NextResponse.json({ error: "Error" + String(e) }, { status: 500 });
   }
 }
