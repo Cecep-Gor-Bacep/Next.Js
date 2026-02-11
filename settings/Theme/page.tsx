@@ -1,23 +1,26 @@
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ContrastIcon from "@mui/icons-material/Contrast";
-import Box from "@mui/material/Box"
-import CssBaseline from "@mui/material/CssBaseline";
-import ToggleColorMode from "@/components/shared/ThemeSwitch";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import ThemeSwitch from "@/components/shared/ThemeSwitch";
 
 export default function ThemeSettings() {
   return (
-    <Box>
-      <div>
-      <CssBaseline />
-      <List component="nav" sx={{ mt: 2, bgcolor: 'background.paper'}}>
-        <ListItem>
-          Dark Mode
-          <ToggleColorMode />
-        </ListItem>
-      </List>
-      </div>
-    </Box>
+    <Card>
+      <CardHeader>
+        <CardTitle>Appearance</CardTitle>
+        <CardDescription>
+          Customize the appearance of the application.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center justify-between rounded-lg border p-4">
+          <div className="space-y-0.5">
+            <p className="text-sm font-medium">Dark Mode</p>
+            <p className="text-xs text-muted-foreground">
+              Switch between light and dark theme
+            </p>
+          </div>
+          <ThemeSwitch />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
