@@ -14,14 +14,21 @@ export async function GET() {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
+  const nimQuery = request.nextUrl.searchParams.get("nim");
+
   try {
     const body = await request.json();
-    const {nim, status, ket} = body
+    const { nim: nimBody, status, ket } = body;
+    const nim = nimQuery || nimBody;
 
-    const data = await updateStatKet(nim, status, ket); 
+    const data = await updateStatKet(nim, status, ket);
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json({ status: 500, message: "Error" + error });
+  } catch (e) {
+    return NextResponse.json({
+      status: 500,
+      message: "Error" + e 
+      },
+    );
   }
 }
