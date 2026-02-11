@@ -1,6 +1,5 @@
 "use client";
 
-import { getAllMahasiswa } from "@/services/MahasiswaServices";
 import { Height } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridRowModel } from "@mui/x-data-grid";
