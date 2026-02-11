@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "../components/shared/Navbar";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../components/shared/Theme";
-import { CssBaseline, InitColorSchemeScript } from "@mui/material";
+import { ThemeProvider } from "../components/shared/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "MyApp",
@@ -18,16 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <InitColorSchemeScript attribute="data-mui-color-scheme"/>
-        <AppRouterCacheProvider>
+      <body className="min-h-screen bg-background font-sans antialiased">
+        <ThemeProvider>
           <Navbar />
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-            {/* <Main open={false} /> */}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+          <main>{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );
