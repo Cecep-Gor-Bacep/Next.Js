@@ -1,7 +1,17 @@
 import { prisma } from "@/lib/prisma";
 
-export async function getAllMhs() {
+export async function getMhsAktif() {
   return await prisma.dataMhs.findMany({
+    orderBy: {
+      nim: "asc",
+    },
+    where: {
+      statusMhs: {
+        some: {
+          status: "Aktif",
+        },
+      },
+    },
     include: {
       statusMhs: {
         select: {
@@ -14,6 +24,9 @@ export async function getAllMhs() {
 }
 
 export async function updateStatKet(nim: string, status: string, ket: string) {
+  const statusNormal = status === "-" || status === "" ? null : status;
+  const ketNormal = ket === "-" || ket === "" ? null : ket;
+
   return await prisma.dataMhs.update({
     where: {
       nim: nim,
@@ -25,8 +38,8 @@ export async function updateStatKet(nim: string, status: string, ket: string) {
             nim: nim,
           },
           data: {
-            status: status,
-            ket: ket,
+            status: statusNormal,
+            ket: ketNormal,
           },
         },
       },
@@ -36,3 +49,4 @@ export async function updateStatKet(nim: string, status: string, ket: string) {
     },
   });
 }
+
