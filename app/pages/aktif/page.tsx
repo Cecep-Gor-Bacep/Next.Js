@@ -18,11 +18,11 @@ const columns: GridColDef[] = [
     width: 110,
     editable: true,
     valueGetter: (...args: any[]) => {
-      let row = args[1] ?? args[0];
+      const row = args[1] ?? args[0];
       return row?.statusMhs?.[0]?.status ?? "-";
     },
     valueSetter: (...args: any[]) => {
-      let value: any = args[0], row = args[1];
+      const value: any = args[0], row = args[1];
       return { ...row, statusMhs: [{ ...(row?.statusMhs?.[0] ?? {}), status: value }] };
     },
   },
@@ -32,17 +32,17 @@ const columns: GridColDef[] = [
     width: 200,
     editable: true,
     valueGetter: (...args: any[]) => {
-      let row = args[1];
+      const row = args[1];
       return row?.statusMhs?.[0]?.ket ?? "-";
     },
     valueSetter: (...args: any[]) => {
-      let value: any = args[0], row = args[1];
+      const value: any = args[0], row = args[1];
       return { ...row, statusMhs: [{ ...(row?.statusMhs?.[0] ?? {}), ket: value }] };
     },
   },
 ];
 
-export default function DataGridDemo() {
+export default function Aktif() {
   const [rows, setRows] = useState<GridRowModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
