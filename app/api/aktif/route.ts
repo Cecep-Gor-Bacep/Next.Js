@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { getAllMhs, updateStatKet } from "@/services/MahasiswaServices";
+import { getMhsAktif, updateStatKet } from "@/services/AktifServices";
 
 export async function GET() {
   try {
-    const data = await getAllMhs();
+    const data = await getMhsAktif();
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json(
